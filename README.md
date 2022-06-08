@@ -1,4 +1,4 @@
-# react-piano-component
+# Stochastic Piano
 
 As a piano performer, I appreciate that deterministic interface of the piano – what you hear is what you expect. However, I wondered about the effects of adding stochasticity to this interface. Would adding randomness add any utility for composers or other music generation tasks? Let's code to find out.
 
