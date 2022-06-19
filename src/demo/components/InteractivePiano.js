@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Piano from '../../lib';
 import './InteractivePiano.css';
 
+const keyboard = ['Q', '2', 'W', '3', 'E', 'R', '5', 'T', '6', 'Y', '7', 'U', 'V', 'G', 'B', 'H', 'N', 'M', 'K', ',', 'L', '.', ':', '\''];
+
+/* APPROACH 1: HEAP PERMUTATION */
 
 // Implementation of Heap Permutation - earlier permutations better preserve locality
 function permutations(arr, len, repeat = false) {
@@ -38,9 +41,16 @@ function permutations(arr, len, repeat = false) {
   return results;
 }
 
-function makeKeyboardMap(p) {
+function makeKeyBoardObject(values) {
+  const obj = {};
+  keyboard.forEach((element, index) => {
+    obj[element] = values[index];
+  });
+  return obj;
+}
+
+function makeKeyboardMapHeap(p) {
   p /= 100; // convert scale to probability
-  const keyboard = ['Q', '2', 'W', '3', 'E', 'R', '5', 'T', '6', 'Y', '7', 'U', 'V', 'G', 'B', 'H', 'N', 'M', 'K', ',', 'L', '.', ':', '\''];
   let notes = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5'];
 
   // split notes into equal sections to permute
@@ -61,13 +71,59 @@ function makeKeyboardMap(p) {
     heaps.push(...item);
   });
 
-  // consturct object mapping
-  notes = heaps;
-  const obj = {};
-  keyboard.forEach((element, index) => {
-    obj[element] = notes[index];
-  });
-  return obj;
+  // construct object mapping
+  return makeKeyBoardObject(heaps);
+}
+
+/* APPROACH 2: NORMAL DISTRIBUTION */
+
+// Normal Distribution Simulator
+function boxMullerTransform() {
+  const u1 = Math.random();
+  const u2 = Math.random();
+  const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+  const z1 = Math.sqrt(-2.0 * Math.log(u1)) * Math.sin(2.0 * Math.PI * u2);
+  return { z0, z1 };
+}
+
+function getNormallyDistributedRandomNumber(mean, stddev) {
+  const { z0, _ } = boxMullerTransform();
+  return (z0 * stddev) + mean;
+}
+
+// Select index from array - using normal distribution with specified mean / sttdev
+function normalIndexChoice(lst, mean, stddev, used, duplicates = true) {
+  var index;
+
+  // empirically faster for final index
+  if (used.length === lst.length - 1) {
+    return lst.filter(e => !used.includes(e))[0];
+  }
+
+  while (true) { // sample index inside viable range
+    index = Number.parseInt(getNormallyDistributedRandomNumber(mean, stddev), 10);
+    if (index >= 0 && index <= lst.length) { // ensure no repeated elements
+      if (duplicates && used.includes(lst[index])) {
+        continue;
+      }
+      used.push(lst[index]);
+      return lst[index];
+    }
+  }
+}
+
+const SCALE = 20;
+
+function makeKeyboardMapNormal(p) {
+  let notes = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5', 'F#5', 'G5', 'G#5', 'A5', 'A#5', 'B5'];
+  let used = [];
+  let values = [];
+
+  for (var i = 0; i < notes.length; i++) {
+    // use position as mean, p as stddev
+    values.push(normalIndexChoice(notes, i, p / SCALE, used));
+  }
+  return makeKeyBoardObject(values);
 }
 
 
@@ -113,7 +169,6 @@ function PianoKey({
   isNotePlaying,
   startPlayingNote,
   stopPlayingNote,
-  // keyboardShortcuts,
 }) {
   function handleMouseEnter(event) {
     if (event.buttons) {
@@ -146,7 +201,7 @@ export default class InteractivePiano extends Component {
           startNote={'C4'}
           endNote={'B5'}
           renderPianoKey={PianoKey}
-          keyboardMap={makeKeyboardMap(this.props.value)}
+          keyboardMap={this.props.mode === 0 ? makeKeyboardMapHeap(this.props.value) : makeKeyboardMapNormal(this.props.value)}
         />
       </PianoContainer>
     );
