@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import InteractivePiano from './components/InteractivePiano';
 import SlidingBar from './components/SlidingBar';
+import Modes from './components/Modes';
 import './App.css';
 
 export default class Instrument extends Component {
@@ -8,6 +9,7 @@ export default class Instrument extends Component {
     super(props);
     this.state = {
       value: 0,
+      mode: 0, // 0 -> Heap, 1 -> Normal
       displayKeys: true,
     };
   }
@@ -16,12 +18,20 @@ export default class Instrument extends Component {
     this.setState({ value: event });
   }
 
+  changeMode = (event) => {
+    this.setState({ mode: event });
+  }
+
   render() {
     return (
       <div className={'app__fullscreen-container'}>
         <div className={'app__body'}>
           <SlidingBar handler={this.change} />
-          <InteractivePiano value={this.state.value} />
+          <Modes handler={this.changeMode} />
+          <InteractivePiano
+            value={this.state.value}
+            mode={this.state.mode}
+          />
         </div>
       </div>
     );
