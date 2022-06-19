@@ -30,6 +30,11 @@ module.exports = {
     'no-plusplus':0,
     'wrap-iife':0,
     'max-len':0,
+    'no-continue':0,
+    'no-unused-vars':0,
+    'no-loop-func':0, 
+    'no-constant-condition':0,
+
     
 
 
