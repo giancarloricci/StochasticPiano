@@ -7,9 +7,9 @@ To answer this question, I began by building upon this wonderful [react piano co
 ## Mapping 1 
 Initial attempts at shuffling the keyword mapping with some fixed probabilities caused unsatisfying and overly chaotic results. To better preserve locality, I applied [Heap's Algorithm](https://en.wikipedia.org/wiki/Heap%27s_algorithm#:~:text=Heap's%20algorithm%20generates%20all%20possible,2%20elements%20are%20not%20disturbed.) to generate a series of permutations. This approach enables the array index with respect to all generated heap permutations to function as a proxy for chaos. 
 
-## Mapping 2 (UPDATE: 5/18/2022)
+## Mapping 2 (5/18/2022)
 
-Note: This mapping was just for fun. In another attempt to generate an random keyboard mapping, I mapped each note to a unique neighbor according to a nomral distribution. In this way, the scaled standard deviation functions as a proxy for chaos. 
+In another attempt to generate an random keyboard mapping, I mapped each note to a unique neighbor according to a nomral distribution. In this way, the scaled standard deviation functions as a proxy for chaos. 
 
 ## Short Demo
 
