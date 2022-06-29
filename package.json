@@ -5,10 +5,14 @@
   "main": "build/index.js",
   "scripts": {
     "start": "node scripts/start.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "node scripts/build.js",
     "demo": "node scripts/demo.js",
     "test": "node scripts/test.js --env=jsdom",
-    "docs": "npm run demo && rm -rf docs && mv demo docs"
+    "docs": "npm run demo && rm -rf docs && mv demo docs",
+    
+
   },
   "repository": {
     "type": "git",
@@ -18,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/lillydinhle/react-piano-component/issues"
   },
-  "homepage": "https://github.com/lillydinhle/react-piano-component#readme",
+  "homepage": "http://giancarloricci.github.io/StochasticPiano",
   "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.9.0",
