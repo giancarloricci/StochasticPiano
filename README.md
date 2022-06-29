@@ -11,10 +11,6 @@ Initial attempts at shuffling the keyword mapping with some fixed probabilities 
 
 In another attempt to generate an random keyboard mapping, I mapped each note to a unique neighbor according to a nomral distribution. In this way, the scaled standard deviation functions as a proxy for chaos. 
 
-## Short Demo
-
-Short [demo video](https://youtu.be/nd_skrwuTjM) showing basic functionality of stochastic piano.
-
 ## Installation
 
 ```shell
