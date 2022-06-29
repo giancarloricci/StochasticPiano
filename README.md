@@ -9,7 +9,7 @@ Initial attempts at shuffling the keyword mapping with some fixed probabilities 
 
 ## Mapping 2 (5/18/2022)
 
-In another attempt to generate an random keyboard mapping, I mapped each note to a unique neighbor according to a nomral distribution. In this way, the scaled standard deviation functions as a proxy for chaos. 
+In another attempt to generate an random keyboard mapping, I mapped each note to a unique neighbor according to a normal distribution. In this way, the scaled standard deviation functions as a proxy for chaos. 
 
 ## Installation
 
